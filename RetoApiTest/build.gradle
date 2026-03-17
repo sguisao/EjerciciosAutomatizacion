@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'groovy'
+}
+
+group = 'com.choucair.testing.karate'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    karateVersion = '1.5.1'
+    groovyVersion = '4.0.21'
+}
+
+dependencies {
+    implementation "org.apache.groovy:groovy:$groovyVersion"
+    testImplementation "io.karatelabs:karate-junit5:$karateVersion"
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+
+test {
+    useJUnitPlatform()
+    systemProperty 'karate.options', System.properties.getOrDefault('karate.options', '')
+    systemProperty 'karate.env', System.properties.getOrDefault('karate.env', 'dev')
+    outputs.upToDateWhen { false }
+}
+
+
+sourceSets {
+    test {
+        resources {
+            srcDir 'src/test/java'
+            include '**/*.feature'
+            include '**/*.js'
+            include '**/*.xml'
+            include '**/*.json'
+        }
+    }
+}
