@@ -11,6 +11,7 @@ steps:
 - script: |
     echo ===== RUNNING API TESTS =====
     cd %BUILD_SOURCESDIRECTORY%\RetoApiTest
+    dir
     .\gradlew.bat clean test
   displayName: 'Run API Tests (RetoApiTest)'
 
@@ -18,12 +19,14 @@ steps:
 - script: |
     echo ===== RUNNING SCREENPLAY WEB TESTS =====
     cd %BUILD_SOURCESDIRECTORY%\BaseWebScreenPlay
+    dir
     .\gradlew.bat clean test
   displayName: 'Run Web Screenplay Tests'
 
-# ---------- WEB AUTOMATIZACION ----------
+# ---------- WEB AUTOMATION ----------
 - script: |
     echo ===== RUNNING WEB AUTOMATION TESTS =====
     cd %BUILD_SOURCESDIRECTORY%\RetoAutomatizacionWeb
+    dir
     .\gradlew.bat clean test
   displayName: 'Run Web Automation Tests'
