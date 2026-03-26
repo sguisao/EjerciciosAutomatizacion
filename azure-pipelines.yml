@@ -7,9 +7,23 @@ pool:
 steps:
 - checkout: self
 
+# ---------- API TESTS ----------
 - script: |
-    echo Build Sources Directory: %BUILD_SOURCESDIRECTORY%
+    echo ===== RUNNING API TESTS =====
     cd %BUILD_SOURCESDIRECTORY%\RetoApiTest
-    dir
     .\gradlew.bat clean test
-  displayName: 'Run API tests (Gradle)'
+  displayName: 'Run API Tests (RetoApiTest)'
+
+# ---------- WEB SCREENPLAY ----------
+- script: |
+    echo ===== RUNNING SCREENPLAY WEB TESTS =====
+    cd %BUILD_SOURCESDIRECTORY%\BaseWebScreenPlay
+    .\gradlew.bat clean test
+  displayName: 'Run Web Screenplay Tests'
+
+# ---------- WEB AUTOMATIZACION ----------
+- script: |
+    echo ===== RUNNING WEB AUTOMATION TESTS =====
+    cd %BUILD_SOURCESDIRECTORY%\RetoAutomatizacionWeb
+    .\gradlew.bat clean test
+  displayName: 'Run Web Automation Tests'
