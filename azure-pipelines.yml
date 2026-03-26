@@ -2,12 +2,13 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  name: automation-agent-sebas
 
 steps:
 - checkout: self
 
 - script: |
+    echo "Running Gradle tests"
     chmod +x ./gradlew
     ./gradlew clean test
   displayName: 'Run Gradle tests'
