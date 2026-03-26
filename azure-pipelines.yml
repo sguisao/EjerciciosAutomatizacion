@@ -9,5 +9,5 @@ steps:
 
 - script: |
     echo Running Gradle tests
-    gradlew.bat clean test
+    .\gradlew.bat clean test
   displayName: 'Run Gradle tests (Windows)'
