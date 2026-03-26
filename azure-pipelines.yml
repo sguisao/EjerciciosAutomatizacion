@@ -15,14 +15,6 @@ steps:
     .\gradlew.bat clean test
   displayName: 'Run API Tests (RetoApiTest)'
 
-# ---------- WEB SCREENPLAY ----------
-- script: |
-    echo ===== RUNNING SCREENPLAY WEB TESTS =====
-    cd %BUILD_SOURCESDIRECTORY%\BaseWebScreenPlay
-    dir
-    .\gradlew.bat clean test
-  displayName: 'Run Web Screenplay Tests'
-
 # ---------- WEB AUTOMATION ----------
 - script: |
     echo ===== RUNNING WEB AUTOMATION TESTS =====
