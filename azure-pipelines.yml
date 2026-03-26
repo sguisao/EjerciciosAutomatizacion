@@ -2,14 +2,12 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: ubuntu-latest
 
 steps:
-- task: Gradle@2
-  displayName: 'Run automated tests'
-  inputs:
-    gradleWrapperFile: 'gradlew'
-    tasks: 'clean test'
-    publishJUnitResults: true
-    testResultsFiles: '**/build/test-results/test/*.xml'
-    jdkVersionOption: '11'
+- checkout: self
+
+- script: |
+    chmod +x ./gradlew
+    ./gradlew clean test
+  displayName: 'Run Gradle tests'
