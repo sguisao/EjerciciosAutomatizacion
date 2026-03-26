@@ -1,1 +1,49 @@
+trigger:
+- main
 
+stages:
+- stage: CI_API
+  displayName: 'CI - API Tests'
+  jobs:
+  - job: API_Tests
+    pool:
+      name: automation-agent-sebas
+    steps:
+    - checkout: self
+    - script: |
+        cd %BUILD_SOURCESDIRECTORY%\RetoApiTest
+        .\gradlew.bat clean test
+      displayName: 'Run API Tests'
+
+- stage: CI_WEB
+  displayName: 'CI - Web Tests'
+  dependsOn: CI_API
+  condition: succeededOrFailed()
+  jobs:
+  - job: Web_Tests
+    pool:
+      name: automation-agent-sebas
+    steps:
+    - checkout: self
+    - script: |
+        cd %BUILD_SOURCESDIRECTORY%\RetoAutomatizacionWeb
+        .\gradlew.bat clean test
+      displayName: 'Run Web Tests'
+
+- stage: CD_REPORTS
+  displayName: 'CD - Publish Reports'
+  dependsOn:
+    - CI_API
+    - CI_WEB
+  condition: succeeded('CI_API')
+  jobs:
+  - job: Publish_Reports
+    pool:
+      name: automation-agent-sebas
+    steps:
+    - checkout: self
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.SourcesDirectory)\BaseWebScreenPlay\target\site\serenity'
+        artifactName: 'serenity-report'
+      condition: always()
