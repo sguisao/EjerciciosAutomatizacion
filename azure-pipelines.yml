@@ -8,6 +8,8 @@ steps:
 - checkout: self
 
 - script: |
-    echo Running Gradle tests
+    echo Build Sources Directory: %BUILD_SOURCESDIRECTORY%
+    cd %BUILD_SOURCESDIRECTORY%
+    dir
     .\gradlew.bat clean test
   displayName: 'Run Gradle tests (Windows)'
