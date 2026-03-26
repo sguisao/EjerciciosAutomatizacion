@@ -8,7 +8,6 @@ steps:
 - checkout: self
 
 - script: |
-    echo "Running Gradle tests"
-    chmod +x ./gradlew
-    ./gradlew clean test
-  displayName: 'Run Gradle tests'
+    echo Running Gradle tests
+    gradlew.bat clean test
+  displayName: 'Run Gradle tests (Windows)'
