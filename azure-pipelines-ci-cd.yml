@@ -31,17 +31,19 @@ stages:
       displayName: 'Run Web Tests'
 
 - stage: CD_REPORTS
-  displayName: 'CD - Publish Reports'
+  displayName: 'CD - Publish Serenity Report'
   dependsOn:
     - CI_API
     - CI_WEB
   condition: succeeded('CI_API')
   jobs:
   - job: Publish_Reports
+    displayName: 'Publish Serenity Report'
     pool:
       name: automation-agent-sebas
     steps:
     - checkout: self
+
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Build.SourcesDirectory)\RetoAutomatizacionWeb\target\site\serenity'
