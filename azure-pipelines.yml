@@ -9,7 +9,7 @@ steps:
 
 - script: |
     echo Build Sources Directory: %BUILD_SOURCESDIRECTORY%
-    cd %BUILD_SOURCESDIRECTORY%
+    cd %BUILD_SOURCESDIRECTORY%\RetoApiTest
     dir
     .\gradlew.bat clean test
-  displayName: 'Run Gradle tests (Windows)'
+  displayName: 'Run API tests (Gradle)'
