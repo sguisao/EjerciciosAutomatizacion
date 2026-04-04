@@ -1,0 +1,24 @@
+trigger:
+- main
+
+pool:
+  name: automation-agent-sebas
+
+steps:
+- checkout: self
+
+# ---------- API TESTS ----------
+- script: |
+    echo ===== RUNNING API TESTS =====
+    cd %BUILD_SOURCESDIRECTORY%\RetoApiTest
+    dir
+    .\gradlew.bat clean test
+  displayName: 'Run API Tests (RetoApiTest)'
+
+# ---------- WEB AUTOMATION ----------
+- script: |
+    echo ===== RUNNING WEB AUTOMATION TESTS =====
+    cd %BUILD_SOURCESDIRECTORY%\RetoAutomatizacionWeb
+    dir
+    .\gradlew.bat clean test
+  displayName: 'Run Web Automation Tests'
