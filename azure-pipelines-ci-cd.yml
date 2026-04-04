@@ -70,6 +70,6 @@ stages:
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Serenity HTML Report'
       inputs:
-        targetPath: '$(Build.SourcesDirectory)\RetoAutomatizacionWeb\build\serenity'
+        targetPath: '$(Build.SourcesDirectory)\RetoAutomatizacionWeb\build\target'
         artifactName: 'serenity-report'
       condition: always()
