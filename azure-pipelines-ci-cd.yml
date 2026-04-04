@@ -49,7 +49,7 @@ stages:
         targetType: 'inline'
         script: |
           cd "$(Build.SourcesDirectory)\RetoAutomatizacionWeb"
-          .\gradlew.bat clean test aggregate
+          .\gradlew.bat clean test aggregate --continue
 
 # =========================
 # CD - PUBLISH SERENITY REPORT
@@ -70,5 +70,6 @@ stages:
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Serenity HTML Report'
       inputs:
-        targetPath: '$(Build.SourcesDirectory)\RetoAutomatizacionWeb\serenity-reports'
+        targetPath: '$(Build.SourcesDirectory)\RetoAutomatizacionWeb\build\serenity'
         artifactName: 'serenity-report'
+      condition: always()
