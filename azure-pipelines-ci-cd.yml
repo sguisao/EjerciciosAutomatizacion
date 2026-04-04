@@ -1,51 +1,74 @@
 trigger:
 - main
 
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+pool:
+  name: automation-agent-sebas
+
 stages:
+
+# =========================
+# CI - API TESTS
+# =========================
 - stage: CI_API
   displayName: 'CI - API Tests'
   jobs:
   - job: API_Tests
-    pool:
-      name: automation-agent-sebas
+    displayName: 'Execute API Automation'
     steps:
     - checkout: self
-    - script: |
-        cd %BUILD_SOURCESDIRECTORY%\RetoApiTest
-        .\gradlew.bat clean test
-      displayName: 'Run API Tests'
+      clean: true
 
+    - task: PowerShell@2
+      displayName: 'Run API Tests'
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd "$(Build.SourcesDirectory)\RetoApiTest"
+          .\gradlew.bat clean test
+
+# =========================
+# CI - WEB TESTS
+# =========================
 - stage: CI_WEB
   displayName: 'CI - Web Tests'
   dependsOn: CI_API
   condition: succeededOrFailed()
   jobs:
   - job: Web_Tests
-    pool:
-      name: automation-agent-sebas
+    displayName: 'Execute Web Automation'
     steps:
     - checkout: self
-    - script: |
-        cd %BUILD_SOURCESDIRECTORY%\RetoAutomatizacionWeb
-        .\gradlew.bat clean test
-      displayName: 'Run Web Tests'
+      clean: true
 
+    - task: PowerShell@2
+      displayName: 'Run Web Tests'
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd "$(Build.SourcesDirectory)\RetoAutomatizacionWeb"
+          .\gradlew.bat clean test aggregate
+
+# =========================
+# CD - PUBLISH SERENITY REPORT
+# =========================
 - stage: CD_REPORTS
   displayName: 'CD - Publish Serenity Report'
   dependsOn:
     - CI_API
     - CI_WEB
-  condition: succeeded('CI_API')
+  condition: always()
   jobs:
   - job: Publish_Reports
     displayName: 'Publish Serenity Report'
-    pool:
-      name: automation-agent-sebas
     steps:
     - checkout: self
+      clean: false
 
     - task: PublishPipelineArtifact@1
+      displayName: 'Publish Serenity HTML Report'
       inputs:
-        targetPath: '$(Build.SourcesDirectory)\RetoAutomatizacionWeb\target'
+        targetPath: '$(Build.SourcesDirectory)\RetoAutomatizacionWeb\serenity-reports'
         artifactName: 'serenity-report'
-      condition: always()
