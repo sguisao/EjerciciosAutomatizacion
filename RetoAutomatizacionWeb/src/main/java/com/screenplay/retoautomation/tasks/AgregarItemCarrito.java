@@ -24,6 +24,7 @@ public class AgregarItemCarrito implements Task {
                 Click.on(ITEM_LINK),
                 WaitUntil.the(AgregarItemCarritoPage.BUTTON_LINK, isVisible()).forNoMoreThan(10).seconds(),
                 Click.on(BUTTON_LINK),
+                Esperar.por(1),
                 AceptarAgregarProductoCarrito.now(),
                 Esperar.por(3),
                 Click.on(CART_LINK)
